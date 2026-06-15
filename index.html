@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THEA GRAND HALL | Premium All-in-One Venue Rental</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#BA9E79',
+                        'primary-light': '#D8C3A5',
+                        dark: '#1A1A1A',
+                        charcoal: '#2B2B2B',
+                        cream: '#F5F1EA',
+                    },
+                    fontFamily: {
+                        sans: ['Prompt', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom CSS for Luxury Effects */
+        body {
+            background-color: #1A1A1A;
+            color: #F5F1EA;
+            overflow-x: hidden;
+        }
+
+        .glass {
+            background: rgba(43, 43, 43, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(186, 158, 121, 0.2);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(43, 43, 43, 0.6) 0%, rgba(26, 26, 26, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(186, 158, 121, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(186, 158, 121, 0.3);
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, #D8C3A5, #BA9E79, #D8C3A5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        /* Cinematic Particles Animation */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: #BA9E79;
+            box-shadow: 0 0 10px #BA9E79, 0 0 20px #BA9E79;
+            border-radius: 50%;
+            animation: float-up 10s infinite linear;
+            opacity: 0;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* Scroll Reveal Utility */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Masonry Grid */
+        .masonry {
+            column-count: 1;
+            column-gap: 1rem;
+        }
+        @media (min-width: 640px) { .masonry { column-count: 2; } }
+        @media (min-width: 1024px) { .masonry { column-count: 3; } }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <a href="#" class="font-serif text-2xl font-bold tracking-widest text-primary">THEA</a>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#facilities" class="hover:text-primary transition lang-target" data-th="สิ่งอำนวยความสะดวก" data-en="Facilities">สิ่งอำนวยความสะดวก</a>
+                    <a href="#production" class="hover:text-primary transition lang-target" data-th="โปรดักชั่น" data-en="Production">โปรดักชั่น</a>
+                    <a href="#events" class="hover:text-primary transition lang-target" data-th="ประเภทงาน" data-en="Events">ประเภทงาน</a>
+                    <a href="#gallery" class="hover:text-primary transition lang-target" data-th="แกลเลอรี่" data-en="Gallery">แกลเลอรี่</a>
+                    
+                    <button id="lang-toggle" class="flex items-center space-x-2 border border-primary/50 px-3 py-1 rounded-full hover:bg-primary/10 transition">
+                        <i class="fa-solid fa-globe text-primary"></i>
+                        <span id="current-lang" class="text-sm">TH / EN</span>
+                    </button>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-2xl focus:outline-none">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden glass mt-4 absolute w-full">
+            <div class="flex flex-col px-4 pt-2 pb-4 space-y-3 text-center">
+                <a href="#facilities" class="hover:text-primary transition lang-target" data-th="สิ่งอำนวยความสะดวก" data-en="Facilities">สิ่งอำนวยความสะดวก</a>
+                <a href="#production" class="hover:text-primary transition lang-target" data-th="โปรดักชั่น" data-en="Production">โปรดักชั่น</a>
+                <a href="#events" class="hover:text-primary transition lang-target" data-th="ประเภทงาน" data-en="Events">ประเภทงาน</a>
+                <a href="#gallery" class="hover:text-primary transition lang-target" data-th="แกลเลอรี่" data-en="Gallery">แกลเลอรี่</a>
+                <button id="mobile-lang-toggle" class="text-primary mt-2">Switch Language (TH/EN)</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="img/img-header.jpg" alt="Luxury Hall" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-gradient-to-b from-dark/80 via-dark/60 to-dark"></div>
+        </div>
+        
+        <div class="particles" id="particles-container"></div>
+
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto reveal active">
+            <h1 class="font-serif text-5xl md:text-7xl font-bold tracking-widest mb-4 text-gradient">
+                THEA GRAND HALL
+            </h1>
+            <p class="text-xl md:text-2xl text-cream/90 font-light mb-8 lang-target" 
+               data-th="ครบทุกความต้องการ สำหรับทุกงานสำคัญ" 
+               data-en="Premium All-in-One Venue Rental">
+                ครบทุกความต้องการ สำหรับทุกงานสำคัญ
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#facilities" class="px-8 py-3 bg-primary text-dark font-semibold rounded-none hover:bg-primary-light transition duration-300 lang-target" data-th="ดูรายละเอียด" data-en="View Details">
+                    ดูรายละเอียด
+                </a>
+                <a href="#contact" class="px-8 py-3 border border-primary text-primary hover:bg-primary/10 transition duration-300 glass lang-target" data-th="ติดต่อเรา" data-en="Contact Us">
+                    ติดต่อเรา
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section id="facilities" class="py-24 bg-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-4xl text-primary mb-2 lang-target" data-th="สิ่งอำนวยความสะดวก" data-en="Facilities">สิ่งอำนวยความสะดวก</h2>
+                <div class="w-16 h-1 bg-primary mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="glass-card p-8 rounded-xl text-center reveal">
+                    <i class="fa-solid fa-microphone-lines text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 lang-target" data-th="เวที (Stage)" data-en="Premium Stage">เวที (Stage)</h3>
+                    <p class="text-cream/70 text-sm lang-target" data-th="เวทีขนาดใหญ่พร้อมระบบไฮดรอลิก รองรับทุกการแสดง" data-en="Large stage with hydraulic systems for all performances.">เวทีขนาดใหญ่พร้อมระบบไฮดรอลิก รองรับทุกการแสดง</p>
+                </div>
+                <div class="glass-card p-8 rounded-xl text-center reveal">
+                    <i class="fa-solid fa-desktop text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 lang-target" data-th="จอ LED (LED Screen)" data-en="LED Screen">จอ LED (LED Screen)</h3>
+                    <p class="text-cream/70 text-sm lang-target" data-th="จอความละเอียดสูงระดับ 4K ให้ภาพคมชัดทุกมุมมอง" data-en="High-resolution 4K screens for crystal clear visuals.">จอความละเอียดสูงระดับ 4K ให้ภาพคมชัดทุกมุมมอง</p>
+                </div>
+                <div class="glass-card p-8 rounded-xl text-center reveal">
+                    <i class="fa-solid fa-bolt text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 lang-target" data-th="ไฟเลเซอร์ (Laser Lighting)" data-en="Laser Lighting">ไฟเลเซอร์ (Laser Lighting)</h3>
+                    <p class="text-cream/70 text-sm lang-target" data-th="ระบบแสงสีเสียงมาตรฐานคอนเสิร์ตระดับโลก" data-en="World-class concert standard lighting and sound systems.">ระบบแสงสีเสียงมาตรฐานคอนเสิร์ตระดับโลก</p>
+                </div>
+                <div class="glass-card p-8 rounded-xl text-center reveal">
+                    <i class="fa-solid fa-martini-glass-citrus text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 lang-target" data-th="บาร์ค็อกเทล (Cocktail Bar)" data-en="Cocktail Bar">บาร์ค็อกเทล (Cocktail Bar)</h3>
+                    <p class="text-cream/70 text-sm lang-target" data-th="บาร์เครื่องดื่มหรูหรา พร้อมบาร์เทนเดอร์มืออาชีพ" data-en="Luxury beverage bar with professional bartenders.">บาร์เครื่องดื่มหรูหรา พร้อมบาร์เทนเดอร์มืออาชีพ</p>
+                </div>
+                <div class="glass-card p-8 rounded-xl text-center reveal">
+                    <i class="fa-solid fa-music text-4xl text-primary mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 lang-target" data-th="ห้องคาราโอเกะ (Karaoke Rooms)" data-en="Karaoke Rooms">ห้องคาราโอเกะ (Karaoke Rooms)</h3>
+                    <p class="text-cream/70 text-sm lang-target" data-th="ห้อง VIP ส่วนตัวพร้อมระบบเสียงระดับไฮเอนด์" data-en="Private VIP rooms with high-end audio systems.">ห้อง VIP ส่วนตัวพร้อมระบบเสียงระดับไฮเอนด์</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="production" class="py-24 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-4xl text-primary mb-2 lang-target" data-th="เหมาะสำหรับงาน Production" data-en="Perfect for Production">เหมาะสำหรับงาน Production</h2>
+                <div class="w-16 h-1 bg-primary mx-auto"></div>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4 lg:gap-8">
+                <div class="group relative overflow-hidden rounded-lg reveal cursor-pointer">
+                    <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition duration-500 z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=600&q=80" alt="Drama" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute bottom-0 w-full p-4 bg-gradient-to-t from-dark to-transparent z-20">
+                        <h3 class="text-lg font-semibold lang-target" data-th="ละคร / Drama" data-en="Drama Series">ละคร / Drama</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg reveal cursor-pointer">
+                    <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition duration-500 z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80" alt="Series" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute bottom-0 w-full p-4 bg-gradient-to-t from-dark to-transparent z-20">
+                        <h3 class="text-lg font-semibold lang-target" data-th="ซีรี่ย์ / Series" data-en="TV Series">ซีรี่ย์ / Series</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg reveal cursor-pointer">
+                    <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition duration-500 z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80" alt="MV" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute bottom-0 w-full p-4 bg-gradient-to-t from-dark to-transparent z-20">
+                        <h3 class="text-lg font-semibold lang-target" data-th="MV Production" data-en="Music Videos">MV Production</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg reveal cursor-pointer">
+                    <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition duration-500 z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=600&q=80" alt="YouTube" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute bottom-0 w-full p-4 bg-gradient-to-t from-dark to-transparent z-20">
+                        <h3 class="text-lg font-semibold lang-target" data-th="YouTube Content" data-en="YouTube Content">YouTube Content</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg reveal cursor-pointer">
+                    <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition duration-500 z-10"></div>
+                    <img src="img/avel-chuklanov-Hn3S90f6aak-unsplash.jpg" alt="Commercial" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute bottom-0 w-full p-4 bg-gradient-to-t from-dark to-transparent z-20">
+                        <h3 class="text-lg font-semibold lang-target" data-th="Commercial / Advertising" data-en="Commercials">Commercial / Advertising</h3>
+                    </div>
+                </div>
+                <div class="group relative overflow-hidden rounded-lg reveal cursor-pointer">
+                    <div class="absolute inset-0 bg-primary/20 group-hover:bg-primary/0 transition duration-500 z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1616469829581-73993eb86b02?auto=format&fit=crop&w=600&q=80" alt="TikTok" class="w-full h-64 object-cover transform group-hover:scale-110 transition duration-700">
+                    <div class="absolute bottom-0 w-full p-4 bg-gradient-to-t from-dark to-transparent z-20">
+                        <h3 class="text-lg font-semibold lang-target" data-th="TikTok Content" data-en="TikTok Content">TikTok Content</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="events" class="py-24 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-4xl text-primary mb-2 lang-target" data-th="รองรับงานทุกรูปแบบ" data-en="Versatile Event Support">รองรับงานทุกรูปแบบ</h2>
+                <div class="w-16 h-1 bg-primary mx-auto"></div>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-4 reveal">
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="งานแต่งงาน / Wedding" data-en="Weddings">งานแต่งงาน / Wedding</span>
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="งานสัมมนา / Seminar" data-en="Seminars">งานสัมมนา / Seminar</span>
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="งานเลี้ยงบริษัท / Corporate Party" data-en="Corporate Parties">งานเลี้ยงบริษัท / Corporate Party</span>
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="Workshop" data-en="Workshops">Workshop</span>
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="Mini Concert" data-en="Mini Concerts">Mini Concert</span>
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="Fan Meeting" data-en="Fan Meetings">Fan Meeting</span>
+                <span class="px-6 py-3 glass-card rounded-full text-cream hover:text-primary transition cursor-pointer lang-target" data-th="Live Podcast" data-en="Live Podcasts">Live Podcast</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-charcoal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 reveal">
+                    <img src="img/thea_location.jpg" alt="Luxury Location" class="rounded-xl shadow-2xl border border-primary/20">
+                </div>
+                <div class="lg:w-1/2 reveal">
+                    <h2 class="font-serif text-4xl text-primary mb-6 lang-target" data-th="ทำเลและความสะดวกสบาย" data-en="Location & Advantages">ทำเลและความสะดวกสบาย</h2>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-map-location-dot text-2xl text-primary mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="text-xl font-semibold lang-target" data-th="ทำเลดี เดินทางสะดวก" data-en="Prime Location, Easy Access">ทำเลดี เดินทางสะดวก</h4>
+                                <p class="text-cream/70 text-sm mt-1 lang-target" data-th="ใจกลางเมือง เชื่อมต่อทุกเส้นทาง" data-en="City center, connected to all main routes.">ใจกลางเมือง เชื่อมต่อทุกเส้นทาง</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-car text-2xl text-primary mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="text-xl font-semibold lang-target" data-th="ที่จอดรถกว้างขวาง" data-en="Ample Parking">ที่จอดรถกว้างขวาง</h4>
+                                <p class="text-cream/70 text-sm mt-1 lang-target" data-th="รองรับรถยนต์ได้มากกว่า 500 คัน" data-en="Capacity for over 500 vehicles.">รองรับรถยนต์ได้มากกว่า 500 คัน</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-hotel text-2xl text-primary mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="text-xl font-semibold lang-target" data-th="มีโรงแรมภายในโครงการ" data-en="On-site Hotel">มีโรงแรมภายในโครงการ</h4>
+                                <p class="text-cream/70 text-sm mt-1 lang-target" data-th="สะดวกสบายสำหรับแขกวีไอพีและทีมงาน" data-en="Convenient for VIP guests and production teams.">สะดวกสบายสำหรับแขกวีไอพีและทีมงาน</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fa-solid fa-users text-2xl text-primary mt-1 mr-4"></i>
+                            <div>
+                                <h4 class="text-xl font-semibold lang-target" data-th="รองรับทุกขนาดงานทั้งเล็กและใหญ่" data-en="Supports All Event Sizes">รองรับทุกขนาดงานทั้งเล็กและใหญ่</h4>
+                                <p class="text-cream/70 text-sm mt-1 lang-target" data-th="พื้นที่ปรับเปลี่ยนได้ตามความต้องการของคุณ" data-en="Flexible spaces tailored to your needs.">พื้นที่ปรับเปลี่ยนได้ตามความต้องการของคุณ</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 bg-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <h2 class="font-serif text-4xl text-primary mb-2 lang-target" data-th="บรรยากาศสถานที่" data-en="Venue Gallery">บรรยากาศสถานที่</h2>
+                <div class="w-16 h-1 bg-primary mx-auto"></div>
+            </div>
+            
+            <div class="masonry reveal">
+                <div class="masonry-item">
+                    <img src="img/gallery01.webp" alt="Event" class="w-full rounded-lg hover:opacity-80 transition">
+                </div>
+                <div class="masonry-item">
+                    <img src="img/gallery02.webp" alt="Event" class="w-full rounded-lg hover:opacity-80 transition">
+                </div>
+                <div class="masonry-item">
+                    <img src="img/gallery03.webp" alt="Event" class="w-full rounded-lg hover:opacity-80 transition">
+                </div>
+                <div class="masonry-item">
+                    <img src="img/gallery04.webp" alt="Event" class="w-full rounded-lg hover:opacity-80 transition">
+                </div>
+                <div class="masonry-item">
+                    <img src="img/gallery05.webp" alt="Event" class="w-full rounded-lg hover:opacity-80 transition">
+                </div>
+                <div class="masonry-item">
+                    <img src="img/gallery06.webp" alt="Event" class="w-full rounded-lg hover:opacity-80 transition">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="py-24 relative overflow-hidden bg-charcoal">
+        <div class="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1519167758481-83f550bb49b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center mix-blend-overlay"></div>
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10 reveal">
+            <i class="fa-regular fa-envelope text-5xl text-primary mb-6"></i>
+            <h2 class="font-serif text-5xl text-primary mb-6 lang-target" data-th="สนใจติดต่อ" data-en="Get in Touch">สนใจติดต่อ</h2>
+            <p class="text-2xl font-light mb-10 tracking-widest text-cream">086-463-5366</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="tel:0864635366" class="flex items-center justify-center gap-3 px-8 py-4 bg-primary text-dark font-semibold rounded-full hover:bg-primary-light transition duration-300 shadow-[0_0_20px_rgba(186,158,121,0.4)]">
+                    <i class="fa-solid fa-phone"></i>
+                    <span class="lang-target" data-th="โทรสอบถาม" data-en="Call Now">โทรสอบถาม</span>
+                </a>
+                <a href="#" class="flex items-center justify-center gap-3 px-8 py-4 bg-[#00B900] text-white font-semibold rounded-full hover:bg-[#009900] transition duration-300 shadow-[0_0_20px_rgba(0,185,0,0.3)]">
+                    <i class="fa-brands fa-line text-xl"></i>
+                    <span>LINE Official</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-[#0f0f0f] py-8 text-center border-t border-primary/20">
+        <p class="text-cream/50 text-sm font-serif tracking-widest">THEA GRAND HALL &copy; 2026</p>
+    </footer>
+
+    <a href="#" class="fixed bottom-6 right-6 w-14 h-14 bg-[#00B900] text-white rounded-full flex items-center justify-center text-2xl shadow-[0_0_20px_rgba(0,185,0,0.4)] hover:scale-110 transition duration-300 z-40">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <button id="back-to-top" class="fixed bottom-24 right-6 w-12 h-12 glass rounded-full flex items-center justify-center text-primary opacity-0 pointer-events-none transition duration-300 z-40 hover:bg-primary/20">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // --- Particle Generation ---
+        const particleContainer = document.getElementById('particles-container');
+        for (let i = 0; i < 30; i++) {
+            let particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = 5 + Math.random() * 10 + 's';
+            particleContainer.appendChild(particle);
+        }
+
+        // --- Sticky Navbar & Back to Top ---
+        const navbar = document.getElementById('navbar');
+        const backToTop = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass');
+                navbar.classList.add('py-2');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('glass');
+                navbar.classList.remove('py-2');
+                navbar.classList.add('py-4');
+            }
+
+            if (window.scrollY > 500) {
+                backToTop.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                backToTop.classList.add('opacity-0', 'pointer-events-none');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // --- Scroll Reveal Animation ---
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // --- Language Toggle Logic ---
+        let currentLang = 'th';
+        const langToggleBtn = document.getElementById('lang-toggle');
+        const mobileLangToggleBtn = document.getElementById('mobile-lang-toggle');
+        const langTargets = document.querySelectorAll('.lang-target');
+
+        function switchLanguage() {
+            currentLang = currentLang === 'th' ? 'en' : 'th';
+            
+            // Fade out
+            langTargets.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transition = 'opacity 0.3s ease';
+            });
+
+            setTimeout(() => {
+                langTargets.forEach(el => {
+                    if(currentLang === 'th') {
+                        el.innerText = el.getAttribute('data-th');
+                    } else {
+                        el.innerText = el.getAttribute('data-en');
+                    }
+                    el.style.opacity = '1';
+                });
+            }, 300);
+        }
+
+        langToggleBtn.addEventListener('click', switchLanguage);
+        mobileLangToggleBtn.addEventListener('click', () => {
+            switchLanguage();
+            mobileMenu.classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
